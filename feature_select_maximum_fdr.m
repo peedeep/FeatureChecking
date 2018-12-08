@@ -1,8 +1,8 @@
 clc; clear;
 
-A = csvread('./filter/TrainDataA1.csv', 1);
-B = csvread('./filter/TrainDataB1.csv', 1);
-T_X = csvread('./filter/TestData1.csv', 1);
+A = csvread('./filter/TrainDataA3.csv', 1);
+B = csvread('./filter/TrainDataB3.csv', 1);
+T_X = csvread('./filter/TestData3.csv', 1);
 A_X = A(:,1:end-3);
 A_Y = A(:, end-2:end);
 A_Y = max(A_Y, [], 2);
