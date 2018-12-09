@@ -5,30 +5,17 @@ clear; close all; clc
 
 load('selectedData.mat');
 
-if isAdditional
-    testTrainDataX = flutesTrainX(315:628, :);
-    p = (1:314);%选择训练样本数量
-else
-    testTrainDataX = flutesTrainX(316:630, :);
-    p = (1:315);%选择训练样本数量
-end
-
-X = flutesTrainX(p,:);
-Y = Y(p, :);
-m = size(Y, 1);%训练样本个数
-flute_size = size(Y, 2);%刀片数量
+flute_size = size(Y_Addi_A, 2);%刀片数量
 
 pred_train = zeros(315, flute_size);%测试样本1预测结果
 pred_test = zeros(315, flute_size);%测试样本2预测结果
 
-%% ================ 2.Gradient Descent Train ================
+%% ================ 2.NN Train ================
 for f = 1:flute_size
-
-    y = Y(:,f);
     
     %% nn train
-    [inputn, inputps] = mapminmax(X');
-    [outputn, outputps] = mapminmax(y');
+    [inputn, inputps] = mapminmax(flutesTrainAX');
+    [outputn, outputps] = mapminmax(Y_Addi_A');
     net = newff(inputn, outputn, 6,  {'logsig', 'purelin'});
     net.trainParam.epochs = 1000;
     net.trainParam.lr = 0.01;
@@ -36,7 +23,7 @@ for f = 1:flute_size
     net = train(net, inputn, outputn);
     
     %% for train data predict
-    inputn_test = mapminmax('apply', testTrainDataX', inputps);
+    inputn_test = mapminmax('apply', flutesTrainBX', inputps);
     an = sim(net, inputn_test);
     BPoutput = mapminmax('reverse', an', outputps);
     %pred(:, f) = BPoutput; 
@@ -64,8 +51,14 @@ for f = 1:flute_size
     end
     
     %% 测试数据均方误差（MSE）
-    train_y = sim(net, inputn);
-    train_y_value(:, f) = mapminmax('reverse', train_y', outputps);
+    an = sim(net, inputn);
+    BPoutput = mapminmax('reverse', an', outputps);
+    initial_wear = [31.4 9.89 14.6];
+    if isAdditional
+        train_y_value(:, f) = nnPredict(BPoutput, initial_wear(f));
+    else
+        train_y_value(:, f) = BPoutput;
+    end
     
     if f == 1
        net1 = net;
@@ -85,9 +78,9 @@ for f = 1:flute_size
     end
     
     if isAdditional
-        fprintf('flute%d Train set 均方误差（MSE）: %f\n', f, sum((train_y_value(:, f) - Y(:,1)).^2) / m);
+        fprintf('flute%d Train set 均方误差（MSE）: %f\n', f, sum((train_y_value(:, f) - A_Y(:,1)).^2) / size(A_Y, 1));
     else
-        fprintf('flute%d Train set 均方误差（MSE）: %f\n', f, sum((train_y_value(:, f) - Y(:,1)).^2) / m);
+        fprintf('flute%d Train set 均方误差（MSE）: %f\n', f, sum((train_y_value(:, f) - A_Y(:,1)).^2) / size(A_Y, 1));
     end
     
 end
