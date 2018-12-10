@@ -1,6 +1,6 @@
-punishment_test  = 10^15;
+punishment_b  = 10^15;
 time = 1;
-while punishment_test > 500
+while punishment_b > 900
     feature_select_maximum_fdr; 
 end
 

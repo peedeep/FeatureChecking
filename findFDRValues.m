@@ -3,7 +3,7 @@ function [u, k, no_zero_indexs] = findFDRValues (p_val)
 p_sort = sortrows(p_val);
 d = size(p_sort, 1);
 u = zeros(d, 1);
-q = 0.05; 
+q = 0.1; 
 
 for i = 1:d
     u(i) = min(1, d * q / (d - i + 1)^2);

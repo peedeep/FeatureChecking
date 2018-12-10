@@ -1,8 +1,8 @@
 clc; clear;
 
-A = csvread('./filter/TrainDataA8.csv', 1);
-B = csvread('./filter/TrainDataB8.csv', 1);
-T_X = csvread('./filter/TestData8.csv', 1);
+A = csvread('./filter/TrainDataA6.csv', 1);
+B = csvread('./filter/TrainDataB6.csv', 1);
+T_X = csvread('./filter/TestData6.csv', 1);
 A_X = A(:,1:end-3);
 A_Y = A(:, end-2:end);
 A_Y = max(A_Y, [], 2);
@@ -19,6 +19,8 @@ Y = [A_Y; B_Y];
 
 isAdditional = true;
 
+load('ansower.mat');
+
 if isAdditional
   
     %[ffs] = featureMaximumFDR(X, Y);
@@ -31,15 +33,21 @@ if isAdditional
 
     X_Addi = [X_Addi_A; X_Addi_B];
     Y_Addi = [Y_Addi_A; Y_Addi_B];
-    [fs] = featureMaximumFDR(X_Addi, Y_Addi);
-    fs = fs(1:6);
+    %[fs, fitInfo] = lasso(X_Addi, Y_Addi, 'CV', 10);
+    %lam = fitInfo.Index1SE; % find index of suggested lambda
+    %ansower = fs(:,lam);
+    %disp(fitInfo);
     
-    fs = [14 67 78];
-    flutesTrainAX = X_Addi_A(:, fs);
-    flutesTrainBX = X_Addi_B(:, fs);
+    [row,col,v] = find(ansower > 0);
+    
+    %fs = fs(1:7);
+    
+    %fs = (1:6);
+    %flutesTrainAX = X_Addi_A(:, fs);
+    %flutesTrainBX = X_Addi_B(:, fs);
 
-    flutesTrainX = X_Addi(:, fs);
-    flutesTestX = T_X(:, fs);
+    %flutesTrainX = X_Addi(:, fs);
+    %flutesTestX = T_X(:, fs);
     
 else
     
@@ -52,6 +60,6 @@ end
 %writetable(table([flutesTrainX Y]), './data/TrainFlutes.csv') ;
 %writetable(table(flutesTestX), './data/TestFlutes.csv') ;
 
-save('selectedData');
+%save('selectedData');
 
-ex3_train_nn_maximum
+%ex3_train_nn_maximum

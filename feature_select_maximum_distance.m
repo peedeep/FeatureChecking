@@ -1,8 +1,8 @@
 clc; clear;
 
-A = csvread('./filter/TrainDataA8.csv', 1);
-B = csvread('./filter/TrainDataB8.csv', 1);
-T_X = csvread('./filter/TestData8.csv', 1);
+A = csvread('./filter/TrainDataA6.csv', 1);
+B = csvread('./filter/TrainDataB6.csv', 1);
+T_X = csvread('./filter/TestData6.csv', 1);
 A_X = A(:,1:end-3);
 A_Y = A(:, end-2:end);
 A_Y = max(A_Y, [], 2);
@@ -31,10 +31,10 @@ if isAdditional
 
     X_Addi = [X_Addi_A; X_Addi_B];
     Y_Addi = [Y_Addi_A; Y_Addi_B];
-    [fs] = featureMaximumFDR(X_Addi, Y_Addi);
-    fs = fs(1:6);
+    [fs] = featureMaximumDistance(X_Addi, Y_Addi);
+    %fs = fs(1:7);
     
-    fs = [14 67 78];
+    %fs = (1:6);
     flutesTrainAX = X_Addi_A(:, fs);
     flutesTrainBX = X_Addi_B(:, fs);
 
@@ -49,8 +49,8 @@ else
     
 end
 
-%writetable(table([flutesTrainX Y]), './data/TrainFlutes.csv') ;
-%writetable(table(flutesTestX), './data/TestFlutes.csv') ;
+writetable(table([flutesTrainX Y]), './data/TrainFlutes.csv') ;
+writetable(table(flutesTestX), './data/TestFlutes.csv') ;
 
 save('selectedData');
 

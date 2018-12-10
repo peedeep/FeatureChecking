@@ -51,7 +51,7 @@ m = size(pred_maximum_test_wear, 1);
 
 for i = 1:flute_size
     fprintf('\n flute%d train b set 均方误差（MSE）: %f', i, sum((pred_maximum_b_wear - real_maximum_b_wear).^2) / m);
-    fprintf('\n flute%d Test set 均方误差（MSE）: %f', i, sum((pred_maximum_test_wear - real_maximum_test_wear).^2) / m);
+    fprintf('\n flute%d Test set 均方误差（MSE）: %f\n', i, sum((pred_maximum_test_wear - real_maximum_test_wear).^2) / m);
 end
 
 %end
