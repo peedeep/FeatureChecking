@@ -32,9 +32,9 @@ if isAdditional
     X_Addi = [X_Addi_A; X_Addi_B];
     Y_Addi = [Y_Addi_A; Y_Addi_B];
     [fs] = featureMaximumFDR(X_Addi, Y_Addi);
-    fs = fs(1:6);
+    %fs = fs(1:6);
     
-    fs = [14 67 78];
+    %fs = [14 67 78];
     flutesTrainAX = X_Addi_A(:, fs);
     flutesTrainBX = X_Addi_B(:, fs);
 

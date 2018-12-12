@@ -1,8 +1,8 @@
 clc; clear;
 
-A = csvread('./filter/TrainDataA1.csv', 1);
-B = csvread('./filter/TrainDataB1.csv', 1);
-T_X = csvread('./filter/TestData1.csv', 1);
+A = csvread('./filter/TrainDataA8.csv', 1);
+B = csvread('./filter/TrainDataB8.csv', 1);
+T_X = csvread('./filter/TestData8.csv', 1);
 A_X = A(:,1:end-3);
 A_Y = A(:, end-2:end);
 A_Y = max(A_Y, [], 2);
@@ -41,7 +41,8 @@ if isAdditional
     flutesTrainX = X_Addi(:, fs);
     flutesTestX = T_X(:, fs);
     
-    flutesX = getSsaenFeature([flutesTrainX; flutesTestX]');
+    flutesX = getSsaenFeatureThreeHidden([flutesTrainX; flutesTestX]');%getSsaenFeatureTwoHidden  getSsaenFeatureThreeHidden
+    %flutesX = getSsaenFeature([X; T_X]');
     
     flutesTrainX = flutesX(1:630, :);
     flutesTrainAX = flutesX(1:315, :);
@@ -53,7 +54,7 @@ else
     [fs] = featureMaximumFDR(X, Y);
     flutesTrainX = X(:, fs);
     flutesTestX = T_X(:, fs);
-    flutesX = getSsaenFeature([flutesTrainX; flutesTestX]');
+    flutesX = getSsaenFeatureThreeHidden([flutesTrainX; flutesTestX]');%getSsaenFeatureTwoHidden  getSsaenFeatureThreeHidden
     
     flutesTrainX = flutesX(1:630, :);
     flutesTrainAX = flutesX(1:315, :);
@@ -67,4 +68,4 @@ end
 
 save('selectedData');
 
-ex5_train_nn_maximum
+ex6_train_nn_maximum
