@@ -41,7 +41,7 @@ if isAdditional
     flutesTrainX = X_Addi(:, fs);
     flutesTestX = T_X(:, fs);
     
-    flutesX = ssaenFeature([flutesTrainX; flutesTestX]');
+    flutesX = getSsaenFeature([flutesTrainX; flutesTestX]');
     
     flutesTrainX = flutesX(1:630, :);
     flutesTrainAX = flutesX(1:315, :);
@@ -53,7 +53,7 @@ else
     [fs] = featureMaximumFDR(X, Y);
     flutesTrainX = X(:, fs);
     flutesTestX = T_X(:, fs);
-    flutesX = ssaenFeature([flutesTrainX; flutesTestX]');
+    flutesX = getSsaenFeature([flutesTrainX; flutesTestX]');
     
     flutesTrainX = flutesX(1:630, :);
     flutesTrainAX = flutesX(1:315, :);
@@ -67,4 +67,4 @@ end
 
 save('selectedData');
 
-ex4_train_nn_maximum
+ex5_train_nn_maximum
