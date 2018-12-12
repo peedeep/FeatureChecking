@@ -5,15 +5,21 @@ clear; close all; clc
 
 load('selectedData.mat');
 
-flute_size = size(Y_Addi_A, 2);%刀片数量
+flute_size = size(Y, 2);%刀片数量
 
 train_p = (1:315);
 test_p = (316: 630);
-TrainDataX = flutesTrainX(train_p, :);
-TrainDataY = Y_Addi(train_p, :);
 
+TrainDataX = flutesTrainX(train_p, :);
 TestDataX = flutesTrainX(test_p, :);
-TestDataY = Y_Addi(test_p, :);
+
+if isAdditional 
+    TrainDataY = Y_Addi(train_p, :);
+    TestDataY = Y_Addi(test_p, :);
+else
+    TrainDataY = Y(train_p, :);
+    TestDataY = Y(test_p, :);
+end
 
 pred_train = zeros(315, flute_size);%测试样本1预测结果
 pred_test = zeros(315, flute_size);%测试样本2预测结果

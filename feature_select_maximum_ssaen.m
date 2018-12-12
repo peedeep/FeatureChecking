@@ -1,8 +1,8 @@
 clc; clear;
 
-A = csvread('./filter/TrainDataA8.csv', 1);
-B = csvread('./filter/TrainDataB8.csv', 1);
-T_X = csvread('./filter/TestData8.csv', 1);
+A = csvread('./filter/TrainDataA1.csv', 1);
+B = csvread('./filter/TrainDataB1.csv', 1);
+T_X = csvread('./filter/TestData1.csv', 1);
 A_X = A(:,1:end-3);
 A_Y = A(:, end-2:end);
 A_Y = max(A_Y, [], 2);
@@ -29,23 +29,36 @@ if isAdditional
     [X_Addi_A, Y_Addi_A] = getAdditionalWear(A_X, A_Y);
     [X_Addi_B, Y_Addi_B] = getAdditionalWear(B_X, B_Y);
 
-    X_Addi = [X_Addi_A];
-    Y_Addi = [Y_Addi_A];
+    X_Addi = [X_Addi_A; X_Addi_B];
+    Y_Addi = [Y_Addi_A; Y_Addi_B];
     [fs] = featureMaximumFDR(X_Addi, Y_Addi);
-    %fs = fs(1:3);
+    %fs = fs(1:6);
     
     %fs = [14 67 78];
-    flutesTrainAX = X_Addi_A(:, fs);
-    flutesTrainBX = X_Addi_B(:, fs);
+    %flutesTrainAX = X_Addi_A(:, fs);
+    %flutesTrainBX = X_Addi_B(:, fs);
 
     flutesTrainX = X_Addi(:, fs);
     flutesTestX = T_X(:, fs);
     
+    flutesX = ssaenFeature([flutesTrainX; flutesTestX]');
+    
+    flutesTrainX = flutesX(1:630, :);
+    flutesTrainAX = flutesX(1:315, :);
+    flutesTrainBX = flutesX(316:630, :);
+    flutesTestX = flutesX(631:945, :);
+  
 else
     
     [fs] = featureMaximumFDR(X, Y);
     flutesTrainX = X(:, fs);
     flutesTestX = T_X(:, fs);
+    flutesX = ssaenFeature([flutesTrainX; flutesTestX]');
+    
+    flutesTrainX = flutesX(1:630, :);
+    flutesTrainAX = flutesX(1:315, :);
+    flutesTrainBX = flutesX(316:630, :);
+    flutesTestX = flutesX(631:945, :);
     
 end
 
@@ -54,4 +67,4 @@ end
 
 save('selectedData');
 
-ex3_train_nn_maximum
+ex4_train_nn_maximum

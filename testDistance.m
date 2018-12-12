@@ -20,12 +20,12 @@ for k = 1:K
 end
 
 for i = 1:n
-    s_b(i) = sum(num * (u_k_mean(:, i) - u_mean(i))' * (u_k_mean(:, 1) - u_mean(i)));
+    s_b(i) = num * (u_k_mean(:, i) - u_mean(i))' * (u_k_mean(:, 1) - u_mean(i));
     %s_i = (x_k - u_k_mean(i))' * (x_k - u_k_mean(i)); 
     %s_i(:, i) = (u_k_mean(:, i) - u_mean(i))' * (u_k_mean(:, 1) - u_mean(i));
     for k = 1:K
         x_k = A_X(p(k, :), i);
-        s_i(k, i) = sum((x_k - u_k_mean(k, i))' * (x_k - u_k_mean(k, i)));
+        s_i(k, i) = (x_k - u_k_mean(k, i))' * (x_k - u_k_mean(k, i));
     end
     s_w(i) = sum(s_i(:, i));
 
