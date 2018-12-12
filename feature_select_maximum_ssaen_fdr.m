@@ -31,23 +31,26 @@ if isAdditional
 
     X_Addi = [X_Addi_A; X_Addi_B];
     Y_Addi = [Y_Addi_A; Y_Addi_B];
-    [fs] = featureMaximumFDR(X_Addi, Y_Addi);
+    
+    flutesX = getSsaenFeatureTwoHidden([X_Addi; T_X]');
+    
+    [fs] = featureMaximumFDR(flutesX(1:630, :), Y_Addi);
     %fs = fs(1:6);
     
     %fs = [14 67 78];
     %flutesTrainAX = X_Addi_A(:, fs);
     %flutesTrainBX = X_Addi_B(:, fs);
 
-    flutesTrainX = X_Addi(:, fs);
-    flutesTestX = T_X(:, fs);
+    %flutesTrainX = X_Addi(:, fs);
+    %flutesTestX = T_X(:, fs);
     
-    flutesX = getSsaenFeatureTwoHidden([flutesTrainX; flutesTestX]');%getSsaenFeatureTwoHidden  getSsaenFeatureThreeHidden
+    %flutesX = getSsaenFeatureTwoHidden([flutesTrainX; flutesTestX]');%getSsaenFeatureTwoHidden  getSsaenFeatureThreeHidden
     %flutesX = getSsaenFeature([X; T_X]');
     
-    flutesTrainX = flutesX(1:630, :);
-    flutesTrainAX = flutesX(1:315, :);
-    flutesTrainBX = flutesX(316:630, :);
-    flutesTestX = flutesX(631:945, :);
+    flutesTrainX = flutesX(1:630, fs);
+    flutesTrainAX = flutesX(1:315, fs);
+    flutesTrainBX = flutesX(316:630, fs);
+    flutesTestX = flutesX(631:945, fs);
   
 else
     
