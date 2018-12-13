@@ -6,9 +6,9 @@ T_X = csvread('./filter/TestData8.csv', 1);
 ma = size(A, 1);
 mb = size(B, 1);
 mt = size(T_X, 1);
-A = [(1:ma)' A];
-B = [(1:mb)' B];
-T_X = [(1:mt)' T_X];
+A = [(1:ma)'./2 A];
+B = [(1:mb)'./2 B];
+T_X = [(1:mt)'./2 T_X];
 
 A_X = A(:,1:end-3);
 A_Y = A(:, end-2:end);
@@ -61,4 +61,4 @@ end
 
 save('selectedData');
 
-ex3_train_nn_maximum
+ex6_train_nn_maximum
