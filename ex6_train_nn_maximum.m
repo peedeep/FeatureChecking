@@ -69,9 +69,9 @@ for f = 1:flute_size
     
 end
 
-writetable(table(abs(pred_train_a)), './data/train_a_result.csv') ;
-writetable(table(abs(pred_train_b)), './data/train_b_result.csv') ;
-writetable(table(abs(pred_test)), './data/test_result.csv') ;
+writetable(table(pred_train_a), './data/train_a_result.csv') ;
+writetable(table(pred_train_b), './data/train_b_result.csv') ;
+writetable(table(pred_test), './data/test_result.csv') ;
 %plot(train_y_value);
 
 %% check

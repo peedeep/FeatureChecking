@@ -6,9 +6,9 @@ T_X = csvread('./filter/TestData8.csv', 1);
 ma = size(A, 1);
 mb = size(B, 1);
 mt = size(T_X, 1);
-A = [(1:ma)'./3 A];
-B = [(1:mb)'./3 B];
-T_X = [(1:mt)'./3 T_X];
+A = [(1:ma)'./5 A];
+B = [(1:mb)'./5 B];
+T_X = [(1:mt)'./5 T_X];
 
 A_X = A(:,1:end-3);
 A_Y = A(:, end-2:end);
@@ -38,11 +38,11 @@ if isAdditional
 
     X_Addi = [X_Addi_A; X_Addi_B];
     Y_Addi = [Y_Addi_A; Y_Addi_B];
-    [fs] = featureMaximumFDR(X_Addi, Y_Addi);
-    fs = fs(end - 4: end);
+    [fs, p_val, u] = featureFDR(X_Addi, Y_Addi);
+    fs = fs(end - 5: end);
     %fs = fs(1:5);
     
-    %fs = [40,42,5,1,57];%[40,42,7,1,57]
+    %fs = [14 67 78];
     flutesTrainAX = X_Addi_A(:, fs);
     flutesTrainBX = X_Addi_B(:, fs);
 
@@ -51,7 +51,7 @@ if isAdditional
     
 else
     
-    [fs] = featureMaximumFDR(X, Y);
+    [fs] = featureFDR(X, Y);
     flutesTrainX = X(:, fs);
     flutesTestX = T_X(:, fs);
     

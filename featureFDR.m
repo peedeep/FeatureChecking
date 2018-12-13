@@ -1,4 +1,4 @@
-function [fs] = featureMaximumFDR(X, Y)
+function [fs, p_val, u] = featureFDR(X, Y)
 
 n = size(X, 2);
 
@@ -12,15 +12,11 @@ while(k - 1 > 0)
     model = fitlm(x, y);
 
     p_val = model.Coefficients.pValue(2:end);
-    p_len = length(p_val);
     p_val = [p_val fs'];
 
-    [~, k, no_zero_indexs] = findFDRValues(p_val);
-    if k - 1 > 0
-        fs = no_zero_indexs';
-    end
+    [u, k, no_zero_indexs] = findFDRValues(p_val);
+    fs = no_zero_indexs';
     fprintf('\n********** cutter end k = %d ***********\n', k); 
-
 end
     
 end

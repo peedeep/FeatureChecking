@@ -1,12 +1,16 @@
 function [u, k, no_zero_indexs] = findFDRValues (p_val)
 
+fprintf('----- ÅÅÐòÇ° -----\n');
+disp(p_val);
 p_sort = sortrows(p_val);
+fprintf('----- ÅÅÐòºó -----\n');
+disp(p_sort);
 d = size(p_sort, 1);
 u = zeros(d, 1);
 q = 0.1; 
 
 for i = 1:d
-    u(i) = min(1, d * q / (d - i + 1)^2);
+    u(i) = min(1, d * q / ((d - i + 1)^2));
 end
 
 p_k = find(p_sort(:, 1) > u);
@@ -20,11 +24,15 @@ if isempty(p_k) == 0
     fprintf('-----k: %d\n', k);
     if k > 1
         p_sorted_no_zero = p_sort((1: k - 1), :);
+        fprintf('----- 1£º k - 1 -----\n');
+        disp(p_sorted_no_zero);
         no_zero_indexs = p_sorted_no_zero(:, 2);
         fprintf('-----no zero indexs: \n');
         disp(no_zero_indexs);
     end
 else
+    p_sorted_no_zero = p_sort;
+    no_zero_indexs = p_sorted_no_zero(:, 2);
     fprintf('-----p_k find (sort > u) is empty\n');
 end
 
