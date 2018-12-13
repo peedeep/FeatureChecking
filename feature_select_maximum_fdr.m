@@ -3,6 +3,13 @@ clc; clear;
 A = csvread('./filter/TrainDataA8.csv', 1);
 B = csvread('./filter/TrainDataB8.csv', 1);
 T_X = csvread('./filter/TestData8.csv', 1);
+ma = size(A, 1);
+mb = size(B, 1);
+mt = size(T_X, 1);
+A = [(1:ma)' A];
+B = [(1:mb)' B];
+T_X = [(1:mt)' T_X];
+
 A_X = A(:,1:end-3);
 A_Y = A(:, end-2:end);
 A_Y = max(A_Y, [], 2);
@@ -32,7 +39,7 @@ if isAdditional
     X_Addi = [X_Addi_A; X_Addi_B];
     Y_Addi = [Y_Addi_A; Y_Addi_B];
     [fs] = featureMaximumFDR(X_Addi, Y_Addi);
-    %fs = fs(1:6);
+    fs = fs(end - 4: end);
     
     %fs = [14 67 78];
     flutesTrainAX = X_Addi_A(:, fs);

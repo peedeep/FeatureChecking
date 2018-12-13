@@ -1,7 +1,7 @@
-punishment_b  = 10^15;
+punishment_test  = 10^15;
 time = 1;
-while punishment_b > 900
-    feature_select_maximum_fdr; 
+while punishment_test > 300
+    ex6_train_nn_maximum; 
 end
 
-fprintf('\n punishment is: %f\n', punishment);
+fprintf('\n punishment is: %f\n', punishment_test);
