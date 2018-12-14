@@ -7,8 +7,8 @@ load('selectedData.mat');
 
 flute_size = size(Y, 2);%刀片数量
 
-train_p = (1:315);%(1:315)
-test_p = (316: 630);%(316: 630)
+train_p = (1:315);
+test_p = (316: 630);
 
 TrainDataX = flutesTrainX(train_p, :);
 TestDataX = flutesTrainX(test_p, :);
@@ -29,42 +29,43 @@ pred_test = zeros(315, flute_size);%测试样本2预测结果
 for f = 1:flute_size
     
     %% nn train
-    net = newff(TrainDataX', TrainDataY', 6,  {'logsig', 'purelin'});
-    
-    net.trainParam.epochs = 1000;
-    net.trainParam.lr = 0.01;
-    net.trainParam.goal = 0.00004;
-    net = train(net, TrainDataX', TrainDataY');
+    %net = newff(TrainDataX', TrainDataY', 6,  {'logsig', 'purelin'});
+    m = size(TrainDataX, 1);
+    TrainX = [ones(m, 1) TrainDataX];
+    n = size(TrainX, 2);
+    alpha = 1e-5;
+    num_iters = 70000;
+    theta = zeros(n, 1);
+    [theta, J] = gradientDescentMulti(TrainX, TrainDataY, theta, alpha, num_iters);
+    %plot((1:num_iters), J)
     
     %% for train data predict
-    BPoutput = sim(net, TestDataX');
-    
     %initial_wear = [62 55 50];
     initial_wear = [48.9 9.89 14.6];
     if isAdditional
-        pred_train_b(:, f) = nnPredict(BPoutput, initial_wear(f));
+        pred_train_b(:, f) = linearPredict(TestDataX, theta, initial_wear(f));
     else
-        pred_train_b(:, f) = BPoutput;
+        pred_train_b(:, f) = linearPredict(TestDataX, theta, -1);
     end
 
     %% for test data predict
-    BPoutput = sim(net, flutesTestX');
+    %BPoutput = sim(net, flutesTestX');
         
     %initial_wear = [62 55 50];
     initial_wear = [62.7 9.89 14.6];
     if isAdditional
-        pred_test(:, f) = nnPredict(BPoutput, initial_wear(f));
+        pred_test(:, f) = linearPredict(flutesTestX, theta, initial_wear(f));
     else
-        pred_test(:, f) = BPoutput;
+        pred_test(:, f) = linearPredict(flutesTestX, theta, -1);
     end
     
    %% for train a data predict
-    BPoutput = sim(net, flutesTrainAX');
+    %BPoutput = sim(net, flutesTrainAX');
     initial_wear = [31.4 9.89 14.6];
     if isAdditional
-        pred_train_a(:, f) = nnPredict(BPoutput, initial_wear(f));
+        pred_train_a(:, f) = linearPredict(flutesTrainAX, theta, initial_wear(f));
     else
-        pred_train_a(:, f) = BPoutput;
+        pred_train_a(:, f) = linearPredict(flutesTrainAX, theta, -1);
     end
     
 end
