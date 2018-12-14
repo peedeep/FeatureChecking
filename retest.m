@@ -1,6 +1,6 @@
 punishment_test  = 10^15;
 time = 1;
-while punishment_test > 200
+while punishment_test > 165
     ex6_train_nn_maximum; 
 end
 
